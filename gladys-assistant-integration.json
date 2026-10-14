@@ -1,0 +1,699 @@
+{
+  "manifest_version": 1,
+  "type": "device",
+  "name": "Somfy Protect",
+  "description": {
+    "en": "Arm your Somfy Protect alarm and follow its sensors, cameras and alerts in Gladys.",
+    "fr": "Pilotez votre alarme Somfy Protect et suivez capteurs, caméras et alertes dans Gladys.",
+    "de": "Steuere deine Somfy-Protect-Alarmanlage, ihre Sensoren, Kameras und Alarme in Gladys.",
+    "es": "Controle su alarma Somfy Protect y siga sensores, cámaras y alertas en Gladys."
+  },
+  "version": "1.0.0",
+  "docker_image": "ghcr.io/prohand/gladys-somfyprotect:1.0.0",
+  "gladys_version": ">=5.1.0",
+  "cover_image": "https://raw.githubusercontent.com/prohand/gladys-somfyprotect/main/cover.png",
+  "categories": ["security"],
+  "transports": ["cloud"],
+  "config_schema": [
+    {
+      "key": "intro",
+      "type": "section",
+      "label": {
+        "en": "Getting started",
+        "fr": "Pour commencer",
+        "de": "Erste Schritte",
+        "es": "Primeros pasos"
+      },
+      "description": {
+        "en": "Somfy Protect is a cloud service: the integration signs in with the email and the password of your Somfy Protect app account, then reads your alarm, its sensors and cameras. Create a dedicated user in the app (Settings, Users) if you prefer not to share your own account.",
+        "fr": "Somfy Protect est un service cloud : l'intégration se connecte avec l'e-mail et le mot de passe de votre compte de l'application Somfy Protect, puis lit votre alarme, ses détecteurs et ses caméras. Créez un utilisateur dédié dans l'application (Réglages, Utilisateurs) si vous préférez ne pas partager votre propre compte.",
+        "de": "Somfy Protect ist ein Cloud-Dienst: Die Integration meldet sich mit der E-Mail und dem Passwort deines Kontos der Somfy-Protect-App an und liest dann deine Alarmanlage, ihre Melder und Kameras. Lege in der App einen eigenen Benutzer an (Einstellungen, Benutzer), wenn du dein eigenes Konto nicht teilen möchtest.",
+        "es": "Somfy Protect es un servicio en la nube: la integración inicia sesión con el correo y la contraseña de su cuenta de la app Somfy Protect y luego lee su alarma, sus detectores y sus cámaras. Cree un usuario dedicado en la app (Ajustes, Usuarios) si prefiere no compartir su propia cuenta."
+      },
+      "links": [
+        {
+          "url": "https://github.com/prohand/gladys-somfyprotect/blob/main/docs/en.md",
+          "label": {
+            "en": "Integration documentation",
+            "fr": "Documentation de l'intégration",
+            "de": "Dokumentation der Integration",
+            "es": "Documentación de la integración"
+          }
+        }
+      ]
+    },
+    {
+      "key": "username",
+      "type": "string",
+      "label": {
+        "en": "Somfy Protect email",
+        "fr": "E-mail Somfy Protect",
+        "de": "Somfy-Protect-E-Mail",
+        "es": "Correo de Somfy Protect"
+      },
+      "description": {
+        "en": "The email you sign in to the Somfy Protect app with.",
+        "fr": "L'e-mail avec lequel vous vous connectez à l'application Somfy Protect.",
+        "de": "Die E-Mail, mit der du dich in der Somfy-Protect-App anmeldest.",
+        "es": "El correo con el que inicia sesión en la app Somfy Protect."
+      },
+      "placeholder": {
+        "en": "you@example.com",
+        "fr": "vous@exemple.fr",
+        "de": "du@beispiel.de",
+        "es": "usted@ejemplo.es"
+      },
+      "required": true
+    },
+    {
+      "key": "password",
+      "type": "secret",
+      "label": {
+        "en": "Password",
+        "fr": "Mot de passe",
+        "de": "Passwort",
+        "es": "Contraseña"
+      },
+      "description": {
+        "en": "The password of that account. It is only sent to Somfy, never logged.",
+        "fr": "Le mot de passe de ce compte. Il n'est envoyé qu'à Somfy, jamais écrit dans les logs.",
+        "de": "Das Passwort dieses Kontos. Es wird nur an Somfy gesendet und nie protokolliert.",
+        "es": "La contraseña de esa cuenta. Solo se envía a Somfy, nunca se registra."
+      },
+      "required": true
+    },
+    {
+      "key": "poll_frequency",
+      "type": "number",
+      "label": {
+        "en": "Refresh interval (s)",
+        "fr": "Intervalle de rafraîchissement (s)",
+        "de": "Aktualisierungsintervall (s)",
+        "es": "Intervalo de actualización (s)"
+      },
+      "description": {
+        "en": "How often the Somfy cloud is read for battery levels, temperatures and states, in seconds. Alarms and detections arrive in real time, whatever this value.",
+        "fr": "Fréquence de lecture du cloud Somfy pour les piles, températures et états, en secondes. Les alarmes et détections arrivent en temps réel, quelle que soit cette valeur.",
+        "de": "Wie oft die Somfy-Cloud für Batteriestände, Temperaturen und Zustände gelesen wird, in Sekunden. Alarme und Erkennungen kommen unabhängig davon in Echtzeit an.",
+        "es": "Frecuencia de lectura de la nube de Somfy para baterías, temperaturas y estados, en segundos. Las alarmas y detecciones llegan en tiempo real, sea cual sea este valor."
+      },
+      "required": false,
+      "default": 120,
+      "min": 60,
+      "max": 3600
+    },
+    {
+      "key": "realtime",
+      "type": "boolean",
+      "label": {
+        "en": "Real-time events",
+        "fr": "Événements en temps réel",
+        "de": "Echtzeit-Ereignisse",
+        "es": "Eventos en tiempo real"
+      },
+      "description": {
+        "en": "Receive alarms, level changes and detections within a second, as the Somfy Protect app does. Needed by the scene triggers.",
+        "fr": "Reçoit les alarmes, changements de niveau et détections en une seconde, comme l'application Somfy Protect. Nécessaire aux déclencheurs de scènes.",
+        "de": "Empfängt Alarme, Stufenwechsel und Erkennungen innerhalb einer Sekunde, wie die Somfy-Protect-App. Für die Szenen-Auslöser nötig.",
+        "es": "Recibe alarmas, cambios de nivel y detecciones en un segundo, como la app Somfy Protect. Necesario para los disparadores de escenas."
+      },
+      "required": false,
+      "default": true
+    },
+    {
+      "key": "snapshot_interval",
+      "type": "number",
+      "label": {
+        "en": "Camera snapshot interval (s)",
+        "fr": "Intervalle des captures caméra (s)",
+        "de": "Intervall der Kamerabilder (s)",
+        "es": "Intervalo de capturas de cámara (s)"
+      },
+      "description": {
+        "en": "Push a camera image to the dashboard every N seconds (60 minimum). 0 takes images only when they are asked for: dashboard live view, scene action.",
+        "fr": "Envoie une image des caméras au tableau de bord toutes les N secondes (60 minimum). 0 ne prend d'image que sur demande : vue en direct du tableau de bord, action de scène.",
+        "de": "Sendet alle N Sekunden ein Kamerabild an das Dashboard (mindestens 60). 0 nimmt Bilder nur auf Anfrage auf: Live-Ansicht im Dashboard, Szenen-Aktion.",
+        "es": "Envía una imagen de las cámaras al panel cada N segundos (mínimo 60). 0 solo toma imágenes cuando se piden: vista en directo del panel, acción de escena."
+      },
+      "required": false,
+      "default": 0,
+      "min": 0,
+      "max": 3600
+    },
+    {
+      "key": "debug_logs",
+      "type": "boolean",
+      "label": {
+        "en": "Detailed logs (debug)",
+        "fr": "Journaux détaillés (debug)",
+        "de": "Detaillierte Protokolle (Debug)",
+        "es": "Registros detallados (depuración)"
+      },
+      "description": {
+        "en": "Log every request and every event of the Somfy cloud. Turn it on to diagnose a problem, then off again: it is verbose. Passwords and tokens are never logged.",
+        "fr": "Journalise chaque requête et chaque événement du cloud Somfy. Activez-le pour diagnostiquer un problème, puis désactivez-le : c'est verbeux. Les mots de passe et jetons ne sont jamais journalisés.",
+        "de": "Protokolliert jede Anfrage und jedes Ereignis der Somfy-Cloud. Schalte es zur Fehlersuche ein und danach wieder aus: Es ist ausführlich. Passwörter und Tokens werden nie protokolliert.",
+        "es": "Registra cada petición y cada evento de la nube de Somfy. Actívelo para diagnosticar un problema y desactívelo después: es muy prolijo. Las contraseñas y los tokens nunca se registran."
+      },
+      "required": false,
+      "default": false
+    }
+  ],
+  "actions": [
+    {
+      "key": "test_connection",
+      "label": {
+        "en": "Test the connection",
+        "fr": "Tester la connexion",
+        "de": "Verbindung testen",
+        "es": "Probar la conexión"
+      },
+      "timeout_seconds": 60
+    }
+  ],
+  "scene_triggers": [
+    {
+      "key": "alarm_triggered",
+      "label": {
+        "en": "Somfy Protect alarm triggered",
+        "fr": "Alarme Somfy Protect déclenchée",
+        "de": "Somfy-Protect-Alarm ausgelöst",
+        "es": "Alarma Somfy Protect activada"
+      },
+      "description": {
+        "en": "An intrusion, a panic or a fire alarm went off on a site.",
+        "fr": "Une alarme intrusion, panique ou incendie s'est déclenchée sur un site.",
+        "de": "Ein Einbruchs-, Panik- oder Feueralarm wurde an einem Standort ausgelöst.",
+        "es": "Se ha activado una alarma de intrusión, pánico o incendio en un sitio."
+      },
+      "fields": [
+        {
+          "key": "site",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Alarm (Somfy Protect site)",
+            "fr": "Alarme (site Somfy Protect)",
+            "de": "Alarmanlage (Somfy-Protect-Standort)",
+            "es": "Alarma (sitio Somfy Protect)"
+          },
+          "required": false
+        },
+        {
+          "key": "kind",
+          "type": "multi_select",
+          "label": {
+            "en": "Kind of alarm",
+            "fr": "Type d'alarme",
+            "de": "Art des Alarms",
+            "es": "Tipo de alarma"
+          },
+          "options": [
+            {
+              "value": "intrusion",
+              "label": {
+                "en": "Intrusion",
+                "fr": "Intrusion",
+                "de": "Einbruch",
+                "es": "Intrusión"
+              }
+            },
+            {
+              "value": "panic",
+              "label": {
+                "en": "Panic",
+                "fr": "Panique",
+                "de": "Panik",
+                "es": "Pánico"
+              }
+            },
+            {
+              "value": "fire",
+              "label": {
+                "en": "Fire",
+                "fr": "Incendie",
+                "de": "Feuer",
+                "es": "Incendio"
+              }
+            }
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "key": "site_name",
+          "type": "string",
+          "label": {
+            "en": "Site name",
+            "fr": "Nom du site",
+            "de": "Name des Standorts",
+            "es": "Nombre del sitio"
+          }
+        },
+        {
+          "key": "kind",
+          "type": "string",
+          "label": {
+            "en": "Kind of alarm",
+            "fr": "Type d'alarme",
+            "de": "Art des Alarms",
+            "es": "Tipo de alarma"
+          }
+        },
+        {
+          "key": "device_name",
+          "type": "string",
+          "label": {
+            "en": "Device that detected it",
+            "fr": "Appareil qui a détecté",
+            "de": "Auslösendes Gerät",
+            "es": "Dispositivo que lo detectó"
+          }
+        }
+      ]
+    },
+    {
+      "key": "alarm_ended",
+      "label": {
+        "en": "Somfy Protect alarm ended",
+        "fr": "Alarme Somfy Protect terminée",
+        "de": "Somfy-Protect-Alarm beendet",
+        "es": "Alarma Somfy Protect terminada"
+      },
+      "description": {
+        "en": "The alarm of a site stopped ringing (stopped from the app, a key fob or Gladys, or timed out).",
+        "fr": "L'alarme d'un site s'est arrêtée (depuis l'application, un badge, Gladys, ou en fin de durée).",
+        "de": "Der Alarm eines Standorts hat aufgehört (über die App, einen Schlüsselanhänger, Gladys oder nach Ablauf).",
+        "es": "La alarma de un sitio ha dejado de sonar (desde la app, un mando, Gladys o al terminar su duración)."
+      },
+      "fields": [
+        {
+          "key": "site",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Alarm (Somfy Protect site)",
+            "fr": "Alarme (site Somfy Protect)",
+            "de": "Alarmanlage (Somfy-Protect-Standort)",
+            "es": "Alarma (sitio Somfy Protect)"
+          },
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "site_name",
+          "type": "string",
+          "label": {
+            "en": "Site name",
+            "fr": "Nom du site",
+            "de": "Name des Standorts",
+            "es": "Nombre del sitio"
+          }
+        }
+      ]
+    },
+    {
+      "key": "security_level_changed",
+      "label": {
+        "en": "Somfy Protect security level changed",
+        "fr": "Niveau de sécurité Somfy Protect modifié",
+        "de": "Somfy-Protect-Sicherheitsstufe geändert",
+        "es": "Nivel de seguridad Somfy Protect cambiado"
+      },
+      "description": {
+        "en": "A site was armed, partially armed or disarmed, from anywhere.",
+        "fr": "Un site a été activé, activé partiellement ou désactivé, d'où que ce soit.",
+        "de": "Ein Standort wurde aktiviert, teilweise aktiviert oder deaktiviert, egal von wo.",
+        "es": "Un sitio se ha activado, activado parcialmente o desactivado, desde donde sea."
+      },
+      "fields": [
+        {
+          "key": "site",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Alarm (Somfy Protect site)",
+            "fr": "Alarme (site Somfy Protect)",
+            "de": "Alarmanlage (Somfy-Protect-Standort)",
+            "es": "Alarma (sitio Somfy Protect)"
+          },
+          "required": false
+        },
+        {
+          "key": "level",
+          "type": "multi_select",
+          "label": {
+            "en": "New level",
+            "fr": "Nouveau niveau",
+            "de": "Neue Stufe",
+            "es": "Nuevo nivel"
+          },
+          "options": [
+            {
+              "value": "disarmed",
+              "label": {
+                "en": "Disarmed",
+                "fr": "Désactivée",
+                "de": "Deaktiviert",
+                "es": "Desactivada"
+              }
+            },
+            {
+              "value": "partial",
+              "label": {
+                "en": "Partial",
+                "fr": "Partielle",
+                "de": "Teilweise",
+                "es": "Parcial"
+              }
+            },
+            {
+              "value": "armed",
+              "label": {
+                "en": "Armed",
+                "fr": "Totale",
+                "de": "Aktiviert",
+                "es": "Total"
+              }
+            }
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "key": "site_name",
+          "type": "string",
+          "label": {
+            "en": "Site name",
+            "fr": "Nom du site",
+            "de": "Name des Standorts",
+            "es": "Nombre del sitio"
+          }
+        },
+        {
+          "key": "level",
+          "type": "string",
+          "label": {
+            "en": "New level",
+            "fr": "Nouveau niveau",
+            "de": "Neue Stufe",
+            "es": "Nuevo nivel"
+          }
+        }
+      ]
+    }
+  ],
+  "scene_actions": [
+    {
+      "key": "set_security_level",
+      "label": {
+        "en": "Set the Somfy Protect security level",
+        "fr": "Changer le niveau de sécurité Somfy Protect",
+        "de": "Somfy-Protect-Sicherheitsstufe setzen",
+        "es": "Cambiar el nivel de seguridad Somfy Protect"
+      },
+      "description": {
+        "en": "Arm, partially arm or disarm a site.",
+        "fr": "Active, active partiellement ou désactive un site.",
+        "de": "Aktiviert, aktiviert teilweise oder deaktiviert einen Standort.",
+        "es": "Activa, activa parcialmente o desactiva un sitio."
+      },
+      "timeout_seconds": 30,
+      "fields": [
+        {
+          "key": "site",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Alarm (Somfy Protect site)",
+            "fr": "Alarme (site Somfy Protect)",
+            "de": "Alarmanlage (Somfy-Protect-Standort)",
+            "es": "Alarma (sitio Somfy Protect)"
+          },
+          "required": true
+        },
+        {
+          "key": "level",
+          "type": "select",
+          "label": {
+            "en": "Level",
+            "fr": "Niveau",
+            "de": "Stufe",
+            "es": "Nivel"
+          },
+          "required": true,
+          "options": [
+            {
+              "value": "disarmed",
+              "label": {
+                "en": "Disarmed",
+                "fr": "Désactivée",
+                "de": "Deaktiviert",
+                "es": "Desactivada"
+              }
+            },
+            {
+              "value": "partial",
+              "label": {
+                "en": "Partial",
+                "fr": "Partielle",
+                "de": "Teilweise",
+                "es": "Parcial"
+              }
+            },
+            {
+              "value": "armed",
+              "label": {
+                "en": "Armed",
+                "fr": "Totale",
+                "de": "Aktiviert",
+                "es": "Total"
+              }
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "key": "level",
+          "type": "string",
+          "label": {
+            "en": "Level asked",
+            "fr": "Niveau demandé",
+            "de": "Angeforderte Stufe",
+            "es": "Nivel pedido"
+          }
+        }
+      ]
+    },
+    {
+      "key": "stop_alarm",
+      "label": {
+        "en": "Stop the Somfy Protect alarm",
+        "fr": "Arrêter l'alarme Somfy Protect",
+        "de": "Somfy-Protect-Alarm stoppen",
+        "es": "Parar la alarma Somfy Protect"
+      },
+      "description": {
+        "en": "Stop the alarm ringing on a site.",
+        "fr": "Arrête l'alarme en cours sur un site.",
+        "de": "Stoppt den laufenden Alarm an einem Standort.",
+        "es": "Detiene la alarma que suena en un sitio."
+      },
+      "timeout_seconds": 30,
+      "fields": [
+        {
+          "key": "site",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Alarm (Somfy Protect site)",
+            "fr": "Alarme (site Somfy Protect)",
+            "de": "Alarmanlage (Somfy-Protect-Standort)",
+            "es": "Alarma (sitio Somfy Protect)"
+          },
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "key": "stopped",
+          "type": "boolean",
+          "label": {
+            "en": "Alarm stopped",
+            "fr": "Alarme arrêtée",
+            "de": "Alarm gestoppt",
+            "es": "Alarma detenida"
+          }
+        }
+      ]
+    },
+    {
+      "key": "set_camera_privacy",
+      "label": {
+        "en": "Open or close a camera's privacy shutter",
+        "fr": "Ouvrir ou fermer le cache d'une caméra",
+        "de": "Sichtschutz einer Kamera öffnen oder schließen",
+        "es": "Abrir o cerrar el obturador de una cámara"
+      },
+      "description": {
+        "en": "Open the shutter to film, close it for privacy.",
+        "fr": "Ouvre le cache pour filmer, le ferme pour l'intimité.",
+        "de": "Öffnet den Sichtschutz zum Filmen, schließt ihn für die Privatsphäre.",
+        "es": "Abre el obturador para grabar, lo cierra para la privacidad."
+      },
+      "timeout_seconds": 30,
+      "fields": [
+        {
+          "key": "camera",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Camera",
+            "fr": "Caméra",
+            "de": "Kamera",
+            "es": "Cámara"
+          },
+          "required": true
+        },
+        {
+          "key": "shutter",
+          "type": "select",
+          "label": {
+            "en": "Shutter",
+            "fr": "Cache",
+            "de": "Sichtschutz",
+            "es": "Obturador"
+          },
+          "required": true,
+          "options": [
+            {
+              "value": "open",
+              "label": {
+                "en": "Open (filming)",
+                "fr": "Ouvert (filme)",
+                "de": "Offen (filmt)",
+                "es": "Abierto (graba)"
+              }
+            },
+            {
+              "value": "close",
+              "label": {
+                "en": "Closed (privacy)",
+                "fr": "Fermé (intimité)",
+                "de": "Geschlossen (Privatsphäre)",
+                "es": "Cerrado (privacidad)"
+              }
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "key": "active",
+          "type": "boolean",
+          "label": {
+            "en": "Camera filming",
+            "fr": "Caméra active",
+            "de": "Kamera aktiv",
+            "es": "Cámara activa"
+          }
+        }
+      ]
+    },
+    {
+      "key": "take_snapshot",
+      "label": {
+        "en": "Take a Somfy Protect camera snapshot",
+        "fr": "Prendre une photo avec une caméra Somfy Protect",
+        "de": "Somfy-Protect-Kamerabild aufnehmen",
+        "es": "Tomar una captura con una cámara Somfy Protect"
+      },
+      "description": {
+        "en": "Refresh the camera image, e.g. before sending it with the Send camera image action.",
+        "fr": "Rafraîchit l'image de la caméra, par exemple avant de l'envoyer avec l'action Envoyer l'image d'une caméra.",
+        "de": "Aktualisiert das Kamerabild, z. B. bevor es mit der Aktion Kamerabild senden verschickt wird.",
+        "es": "Actualiza la imagen de la cámara, p. ej. antes de enviarla con la acción Enviar imagen de cámara."
+      },
+      "timeout_seconds": 30,
+      "fields": [
+        {
+          "key": "camera",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Camera",
+            "fr": "Caméra",
+            "de": "Kamera",
+            "es": "Cámara"
+          },
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "key": "taken",
+          "type": "boolean",
+          "label": {
+            "en": "Snapshot taken",
+            "fr": "Photo prise",
+            "de": "Bild aufgenommen",
+            "es": "Captura tomada"
+          }
+        }
+      ]
+    }
+  ],
+  "widgets": [
+    {
+      "key": "somfy_alarm",
+      "label": {
+        "en": "Somfy Protect alarm",
+        "fr": "Alarme Somfy Protect",
+        "de": "Somfy-Protect-Alarmanlage",
+        "es": "Alarma Somfy Protect"
+      },
+      "description": {
+        "en": "Security level, alarm, unreachable devices and low batteries.",
+        "fr": "Niveau de sécurité, alarme, appareils injoignables et piles faibles.",
+        "de": "Sicherheitsstufe, Alarm, nicht erreichbare Geräte und schwache Batterien.",
+        "es": "Nivel de seguridad, alarma, dispositivos inaccesibles y baterías bajas."
+      },
+      "icon": "shield",
+      "settings": [
+        {
+          "key": "site",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Alarm (Somfy Protect site)",
+            "fr": "Alarme (site Somfy Protect)",
+            "de": "Alarmanlage (Somfy-Protect-Standort)",
+            "es": "Alarma (sitio Somfy Protect)"
+          },
+          "required": false
+        },
+        {
+          "key": "allow_disarm",
+          "type": "boolean",
+          "label": {
+            "en": "Allow disarming",
+            "fr": "Autoriser la désactivation",
+            "de": "Deaktivieren erlauben",
+            "es": "Permitir desactivar"
+          },
+          "description": {
+            "en": "Show the Disarm and Stop alarm buttons. Leave off on a dashboard anyone can reach.",
+            "fr": "Affiche les boutons Désactiver et Arrêter l'alarme. Laissez décoché sur un tableau de bord accessible à tous.",
+            "de": "Zeigt die Schaltflächen Deaktivieren und Alarm stoppen. Auf einem für alle zugänglichen Dashboard ausgeschaltet lassen.",
+            "es": "Muestra los botones Desactivar y Parar alarma. Déjelo desactivado en un panel al alcance de cualquiera."
+          },
+          "required": false,
+          "default": false
+        }
+      ],
+      "action_timeout_seconds": 30
+    }
+  ]
+}
