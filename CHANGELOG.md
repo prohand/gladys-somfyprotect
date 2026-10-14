@@ -4,7 +4,11 @@ All notable changes to this integration are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [semantic versioning](https://semver.org/), bumped by the Release workflow.
 
-Describe each change under `## [Unreleased]` as you make it. The Release
+Describe each change under `## [Unreleased]
+
+## [1.0.1] - 2026-10-14
+
+` as you make it. The Release
 workflow moves that section under the version it ships, and the section becomes
 the notes of the version's GitHub Release.
 
@@ -39,4 +43,5 @@ the notes of the version's GitHub Release.
 - The Somfy refresh token is kept in `/data` with owner-only permissions, and
   passwords and tokens are never logged.
 
-[Unreleased]: https://github.com/prohand/gladys-somfyprotect/commits/main
+[Unreleased]: https://github.com/prohand/gladys-somfyprotect/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/prohand/gladys-somfyprotect/releases/tag/v1.0.1
