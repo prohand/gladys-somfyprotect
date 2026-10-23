@@ -10,6 +10,10 @@ the notes of the version's GitHub Release.
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-10-23
+
+- Maintenance release, no functional change.
+
 ## [1.0.1] - 2026-10-14
 
 ### Added
@@ -41,5 +45,6 @@ the notes of the version's GitHub Release.
 - The Somfy refresh token is kept in `/data` with owner-only permissions, and
   passwords and tokens are never logged.
 
-[Unreleased]: https://github.com/prohand/gladys-somfyprotect/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/prohand/gladys-somfyprotect/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/prohand/gladys-somfyprotect/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/prohand/gladys-somfyprotect/releases/tag/v1.0.1

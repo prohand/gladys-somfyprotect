@@ -1,6 +1,6 @@
 {
   "name": "gladys-somfyprotect",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "description": "Gladys Assistant external integration for the Somfy Protect alarm system (cloud).",
   "repository": {
