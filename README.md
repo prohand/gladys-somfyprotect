@@ -9,7 +9,8 @@ IntelliTags, key fobs, smoke detectors, sirens...).
 - Built from the official template
   [GladysAssistant/integration-template-js](https://github.com/GladysAssistant/integration-template-js),
   with the SDK [`@gladysassistant/integration-sdk`](https://github.com/GladysAssistant/integration-sdk-js).
-- Requires **Gladys ≥ 5.1.0** (scene triggers, scene actions and dashboard widget).
+- Requires **Gladys ≥ 5.3.0** (scene triggers, scene actions, dashboard widget, catalog
+  search keywords).
 - English, French, German and Spanish.
 
 User documentation: [English](docs/en.md) · [Français](docs/fr.md) ·

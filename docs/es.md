@@ -33,6 +33,8 @@ en tiempo real están caídos.
 
 ## Instalación
 
+La integración requiere **Gladys 5.3.0 o posterior**.
+
 1. En Gladys, abra **Integraciones**, busque **Somfy Protect** e instálela.
 2. En la pantalla **Configuración**, introduzca el **correo** y la
    **contraseña** de su cuenta Somfy Protect y guarde.

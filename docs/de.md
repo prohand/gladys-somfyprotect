@@ -33,6 +33,8 @@ Punkt, wenn die Echtzeit-Ereignisse ausgefallen sind.
 
 ## Einrichtung
 
+Die Integration benötigt **Gladys 5.3.0 oder neuer**.
+
 1. Öffne in Gladys **Integrationen**, suche **Somfy Protect** und installiere
    sie.
 2. Gib auf der Seite **Konfiguration** die **E-Mail** und das **Passwort**
