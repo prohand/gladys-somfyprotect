@@ -10,6 +10,16 @@ the notes of the version's GitHub Release.
 
 ## [Unreleased]
 
+### Added
+
+- Search keywords in the Gladys catalog (Myfox, Somfy One, IntelliTag, smoke
+  detector, door lock...).
+
+### Changed
+
+- Gladys 5.3.0 or later is now required.
+- Gladys integration SDK 0.16.
+
 ## [1.0.2] - 2026-10-23
 
 - Maintenance release, no functional change.

@@ -30,6 +30,8 @@ badge of the site gets an orange dot when real-time events are down.
 
 ## Setup
 
+The integration requires **Gladys 5.3.0 or later**.
+
 1. In Gladys, open **Integrations**, find **Somfy Protect** and install it.
 2. In the **Configuration** screen, type the **email** and the **password** of
    your Somfy Protect account, then save.

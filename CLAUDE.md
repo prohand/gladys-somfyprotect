@@ -98,8 +98,9 @@ test/helpers/fakeSomfy.js    fake Somfy API, fake events channel, manual timers
 - **Manifest.** Every text is a multi-language object `{ en, fr, de, es }`: `label`,
   `description`, `placeholder` alike. The catalog `description` holds 10 to 100
   characters per language. `widgets`, `scene_triggers`, `scene_actions` need
-  `gladys_version >= 5.1.0`. `test/manifest.test.js` ties the manifest to the code:
-  change both sides together.
+  `gladys_version >= 5.1.0`, `keywords` / `countries` `>= 5.3.0` (the floor today).
+  `categories` come from the store vocabulary. `test/manifest.test.js` ties the
+  manifest to the code: change both sides together.
 - **User-facing text** is written in English, French, German and Spanish (built with
   `localize`/`pick` from `src/i18n.js`): action messages, connection status, widget,
   badges, and `docs/en.md`, `docs/fr.md`, `docs/de.md`, `docs/es.md`, kept in sync.

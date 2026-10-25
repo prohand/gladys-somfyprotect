@@ -33,6 +33,8 @@ coupés.
 
 ## Installation
 
+L'intégration nécessite **Gladys 5.3.0 ou plus récent**.
+
 1. Dans Gladys, ouvrez **Intégrations**, cherchez **Somfy Protect** et
    installez-la.
 2. Dans l'écran **Configuration**, saisissez l'**e-mail** et le **mot de
